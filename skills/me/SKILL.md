@@ -22,7 +22,7 @@ allowed-tools: "Read Write Edit Bash Glob Grep"
 | `/me` | 能力总览 | 无参数时显示所有能力 |
 | `/me:init` | 初始化数据 | 首次使用前必须执行，创建 CSV + memory.md |
 | `/me:record` | 记录日志 | 工作或生活，聊天式采录 |
-| `/me:dream` | 做梦整理 | 把碎片连接成故事，发现隐藏线索 |
+| `/me:dream` | 整理记忆 | 从日志提炼记忆，整理已有记忆 |
 | `/me:reflect` | 反思改进 | 发现行为模式，提出可执行建议 |
 | `/me:decide` | 辅助决策 | 查找过去类似决策，给出参考 |
 | `/me:recall` | 回忆总结 | 精选、述职、颁奖词、展示 |
@@ -39,7 +39,7 @@ allowed-tools: "Read Write Edit Bash Glob Grep"
 
   🛠️ /me:init     — 初始化数据文件（首次使用必执行）
   📝 /me:record   — 记录今天的工作或生活
-  💭 /me:dream    — 在记忆里做个梦，连接碎片
+  💭 /me:dream    — 整理记忆，提炼日志，清理重复
   🔍 /me:reflect  — 反思行为模式，提出改进建议
   🎯 /me:decide   — 根据记忆辅助决策
   📊 /me:recall   — 回忆与总结，提取最有价值的内容

@@ -10,7 +10,7 @@
 /me          — 显示所有能力（Hub）
 /me:init     — 初始化数据文件（首次使用必执行）
 /me:record   — 记录工作或生活
-/me:dream    — 在记忆里做梦，连接碎片
+/me:dream    — 整理记忆，从日志提炼，清理重复
 /me:reflect  — 反思行为模式，提出改进建议
 /me:decide   — 根据记忆辅助决策
 /me:recall   — 回忆与总结，提取最有价值的内容
