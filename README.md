@@ -36,39 +36,35 @@
 
 ## 安装
 
-方式一：使用安装脚本
+方式一：从 GitHub 安装（推荐）
 
 ```bash
-python3 tools/install.py
+claude plugin marketplace add https://github.com/AssassinGQ/me.git
 ```
 
-安装到 `~/.claude/plugins/marketplaces/me/`。Claude Code 自动将 `commands/` 目录下的文件注册为 `/me:xxx` 冒号子命令。
-
-也可以用 `--dry-run` 预览：
+方式二：从本地目录安装
 
 ```bash
-python3 tools/install.py --dry-run
+# 先 clone（如果还没有的话）
+git clone git@github.com:AssassinGQ/me.git
+cd me
+
+# 使用安装脚本
+python3 tools/install.py
+
+# 或直接用 CLI
+claude plugin marketplace add .
 ```
 
 卸载：
 
 ```bash
+claude plugin marketplace remove me
+# 或
 python3 tools/install.py --action uninstall
 ```
 
-方式二：手动安装
-
-直接将本目录拷贝或克隆到 `~/.claude/plugins/marketplaces/me/`：
-
-```bash
-cp -r . ~/.claude/plugins/marketplaces/me/
-```
-
-或仅安装 skill（无冒号子命令）：
-
-```bash
-cp -r skills/me ~/.claude/skills/me
-```
+安装后，Claude Code 自动将 `commands/` 目录下的文件注册为 `/me:xxx` 冒号子命令。
 
 ## 首次使用
 
