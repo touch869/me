@@ -1,0 +1,14 @@
+{
+  "name": "me",
+  "owner": {
+    "name": "hgq"
+  },
+  "plugins": [
+    {
+      "name": "me",
+      "source": "./",
+      "description": "你的数字自我。记录、回忆、做梦、反思、决策 — 聊着聊着就活过来了。",
+      "version": "2.0.0"
+    }
+  ]
+}

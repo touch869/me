@@ -1,0 +1,3 @@
+# No external dependencies required.
+# This skill uses only Python standard library modules:
+# csv, json, argparse, pathlib, os, sys, datetime, shutil

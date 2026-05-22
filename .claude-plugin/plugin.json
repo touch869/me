@@ -1,0 +1,20 @@
+{
+  "name": "me",
+  "version": "2.0.0",
+  "description": "你的数字自我。记录、回忆、做梦、反思、决策 — 聊着聊着就活过来了。双层架构：CSV日志层 + memory.md记忆层。",
+  "author": {
+    "name": "hgq"
+  },
+  "repository": "",
+  "license": "MIT",
+  "keywords": [
+    "diary",
+    "journal",
+    "memory",
+    "reflection",
+    "decision",
+    "dream",
+    "recall",
+    "agent-skills"
+  ]
+}
