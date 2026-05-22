@@ -5,6 +5,8 @@ allowed-tools: "Read Write Edit Bash"
 
 Recall and summarize — extract the most valuable content from your logs and memory.
 
+0. Resolve data directory — read `~/.claude/me-config.json` to get `data_dir`. If not found, tell user to run `/me:init` first. Set `DATA_DIR` from config value.
+
 1. Check data initialization. If not initialized, tell user to run `/me:init` first.
 
 2. Determine time range and output type from user request:
@@ -23,14 +25,14 @@ Recall and summarize — extract the most valuable content from your logs and me
 3. Query log data:
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/csv_manager.py --action query --file {log} --from {from_date} --to {to_date} --format json --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data
-python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action read --section 核心轨迹 --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data
+python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/csv_manager.py --action query --file {log} --from {from_date} --to {to_date} --format json --data-dir DATA_DIR
+python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action read --section 核心轨迹 --data-dir DATA_DIR
 ```
 
 For "最有价值" queries, also extract high-impact entries:
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action extract-from-csv --file work_log --from {from_date} --to {to_date} --impact-threshold 3 --format summary --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data
+python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action extract-from-csv --file work_log --from {from_date} --to {to_date} --impact-threshold 3 --format summary --data-dir DATA_DIR
 ```
 
 4. Read the recall prompt: `Read ${CLAUDE_PLUGIN_ROOT}/skills/me/prompts/recall.md`

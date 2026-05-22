@@ -5,14 +5,16 @@ allowed-tools: "Read Write Edit Bash"
 
 Dream in your memories — connect fragments into a narrative and discover hidden threads.
 
+0. Resolve data directory — read `~/.claude/me-config.json` to get `data_dir`. If not found, tell user to run `/me:init` first. Set `DATA_DIR` from config value.
+
 1. Check data initialization. If not initialized, tell user to run `/me:init` first.
 
 2. Collect素材 — read memory + extract from CSV:
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action read --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data
-python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action extract-from-csv --file {log} --from {recent_date} --format summary --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data
-python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action extract-from-csv --file {log} --format patterns --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data
+python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action read --data-dir DATA_DIR
+python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action extract-from-csv --file {log} --from {recent_date} --format summary --data-dir DATA_DIR
+python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action extract-from-csv --file {log} --format patterns --data-dir DATA_DIR
 ```
 
 3. Read the dream prompt: `Read ${CLAUDE_PLUGIN_ROOT}/skills/me/prompts/dream.md`
@@ -22,5 +24,5 @@ python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action extract
 5. After dream, offer to write discovered threads to memory:
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action append-section --section 关注清单 --content '{线索}' --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data
+python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action append-section --section 关注清单 --content '{线索}' --data-dir DATA_DIR
 ```

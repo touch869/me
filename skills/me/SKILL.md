@@ -54,45 +54,49 @@ allowed-tools: "Read Write Edit Bash Glob Grep"
 
 `CLAUDE_PLUGIN_ROOT` 指向插件根目录（如 `~/.claude/plugins/marketplaces/me/`）。所有 skill 内资源通过 `${CLAUDE_PLUGIN_ROOT}/skills/me/` 定位。
 
+**数据目录** 通过 `~/.claude/me-config.json` 的 `data_dir` 字段配置（`/me:init` 时设置）。所有命令的 Step 0 均读取此配置获得 `DATA_DIR`。
+
 | 资源 | 路径 |
 |------|------|
 | Python 工具 | `${CLAUDE_PLUGIN_ROOT}/skills/me/tools/` |
 | 提示词模板 | `${CLAUDE_PLUGIN_ROOT}/skills/me/prompts/` |
-| 用户数据 | `${CLAUDE_PLUGIN_ROOT}/skills/me/data/` |
+| 用户数据 | `DATA_DIR`（从 `~/.claude/me-config.json` 读取） |
 
 ---
 
 ## 工具映射
 
-所有 Bash 命令使用 `${CLAUDE_PLUGIN_ROOT}` 定位：
+所有 Bash 命令使用 `${CLAUDE_PLUGIN_ROOT}` 定位工具，`DATA_DIR` 定位数据（从 `~/.claude/me-config.json` 读取）：
 
 | 任务 | 命令 |
 |------|------|
-| 初始化 CSV | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/csv_manager.py --action init --file {work_log|life_log} --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data` |
-| 插入记录 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/csv_manager.py --action insert --file {log} --date {YYYY-MM-DD} --data '{json}' --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data` |
+| 初始化 CSV | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/csv_manager.py --action init --file {work_log|life_log} --data-dir DATA_DIR` |
+| 插入记录 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/csv_manager.py --action insert --file {log} --date {YYYY-MM-DD} --data '{json}' --data-dir DATA_DIR` |
 | 覆盖记录 | 同上 + `--overwrite` |
-| 查询记录 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/csv_manager.py --action query --file {log} --from {date} --to {date} --format {table|json} --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data` |
-| 按impact排序 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/csv_manager.py --action query --file work_log --sort-by impact --limit {N} --format json --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data` |
-| 导出 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/csv_manager.py --action export --file {log} --from {date} --to {date} --format {markdown|json|csv} --output {path} --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data` |
-| 统计 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/csv_manager.py --action stats --file {log} --from {date} --to {date} --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data` |
-| 添加新列 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/csv_manager.py --action add-column --file {log} --column {name} --default {val} --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data` |
-| 初始化记忆 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action init --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data` |
-| 读取记忆 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action read --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data` |
-| 读取某节 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action read --section {name} --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data` |
-| 更新某节 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action update-section --section {name} --content '{text}' --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data` |
-| 追加某节 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action append-section --section {name} --content '{text}' --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data` |
-| 提取摘要 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action extract-from-csv --file {log} --format summary --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data` |
-| 提取模式 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action extract-from-csv --file {log} --format patterns --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data` |
-| 高价值节点 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action extract-from-csv --file {log} --impact-threshold 3 --format summary --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data` |
-| 版本备份 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/version_manager.py --action backup --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data` |
-| 版本回滚 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/version_manager.py --action rollback --version {v} --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data` |
-| 版本列表 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/version_manager.py --action list --data-dir ${CLAUDE_PLUGIN_ROOT}/skills/me/data` |
+| 查询记录 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/csv_manager.py --action query --file {log} --from {date} --to {date} --format {table|json} --data-dir DATA_DIR` |
+| 按impact排序 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/csv_manager.py --action query --file work_log --sort-by impact --limit {N} --format json --data-dir DATA_DIR` |
+| 导出 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/csv_manager.py --action export --file {log} --from {date} --to {date} --format {markdown|json|csv} --output {path} --data-dir DATA_DIR` |
+| 统计 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/csv_manager.py --action stats --file {log} --from {date} --to {date} --data-dir DATA_DIR` |
+| 添加新列 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/csv_manager.py --action add-column --file {log} --column {name} --default {val} --data-dir DATA_DIR` |
+| 初始化记忆 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action init --data-dir DATA_DIR` |
+| 读取记忆 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action read --data-dir DATA_DIR` |
+| 读取某节 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action read --section {name} --data-dir DATA_DIR` |
+| 更新某节 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action update-section --section {name} --content '{text}' --data-dir DATA_DIR` |
+| 追加某节 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action append-section --section {name} --content '{text}' --data-dir DATA_DIR` |
+| 提取摘要 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action extract-from-csv --file {log} --format summary --data-dir DATA_DIR` |
+| 提取模式 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action extract-from-csv --file {log} --format patterns --data-dir DATA_DIR` |
+| 高价值节点 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/memory_manager.py --action extract-from-csv --file {log} --impact-threshold 3 --format summary --data-dir DATA_DIR` |
+| 版本备份 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/version_manager.py --action backup --data-dir DATA_DIR` |
+| 版本回滚 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/version_manager.py --action rollback --version {v} --data-dir DATA_DIR` |
+| 版本列表 | `python3 ${CLAUDE_PLUGIN_ROOT}/skills/me/tools/version_manager.py --action list --data-dir DATA_DIR` |
 
 ---
 
 ## 数据存储
 
-数据存储在 `${CLAUDE_PLUGIN_ROOT}/skills/me/data/` 下：
+数据目录由 `~/.claude/me-config.json` 的 `data_dir` 字段决定（`/me:init` 时设置）。默认为插件内路径，推荐使用独立目录（如 `~/.me-data/`）。
+
+数据目录下包含：
 
 - `work_log.csv` — 工作日志
 - `life_log.csv` — 生活日志
@@ -123,7 +127,7 @@ memory.md 包含 6 个节：
 ## 运行规则
 
 1. 所有脚本路径使用 `${CLAUDE_PLUGIN_ROOT}/skills/me/`，不用绝对路径或猜测路径。
-2. 用户数据放在 `${CLAUDE_PLUGIN_ROOT}/skills/me/data/`，不在项目目录。
+2. 数据目录从 `~/.claude/me-config.json` 的 `data_dir` 字段读取，存入 `DATA_DIR` 变量。
 3. 提示词模板用 `Read ${CLAUDE_PLUGIN_ROOT}/skills/me/prompts/{name}.md` 读取。
 4. category/impact/tags 由 agent 自动推断，不问用户。
 5. 追问有节制：工作最多3方向，生活最多2方向。

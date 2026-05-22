@@ -76,7 +76,7 @@ python3 tools/install.py --action uninstall
 
 - 脚本：`${CLAUDE_PLUGIN_ROOT}/skills/me/tools/`
 - 提示词：`${CLAUDE_PLUGIN_ROOT}/skills/me/prompts/`
-- 用户数据：`${CLAUDE_PLUGIN_ROOT}/skills/me/data/`
+- 用户数据：由 `~/.claude/me-config.json` 的 `data_dir` 字段决定（`/me:init` 时设置，默认插件内，推荐 `~/.me-data/`）
 
 ## CSV 列定义
 
