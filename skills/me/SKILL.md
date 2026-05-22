@@ -129,6 +129,7 @@ memory.md 包含 6 个节：
 1. 所有脚本路径使用 `${CLAUDE_PLUGIN_ROOT}/skills/me/`，不用绝对路径或猜测路径。
 2. 数据目录从 `~/.claude/me-config.json` 的 `data_dir` 字段读取，存入 `DATA_DIR` 变量。
 3. 提示词模板用 `Read ${CLAUDE_PLUGIN_ROOT}/skills/me/prompts/{name}.md` 读取。
-4. category/impact/tags 由 agent 自动推断，不问用户。
-5. 追问有节制：工作最多3方向，生活最多2方向。
-6. 记忆数据不足时诚实告知，不强推结论。
+4. **所有用户交互使用 AskUserQuestion 工具**，不输出纯文本问题。用户通过选项或 Other 输入自由文本。
+5. category/impact/tags 由 agent 自动推断，不问用户。
+6. 追问有节制：工作最多2轮，生活最多1轮。
+7. 记忆数据不足时诚实告知，不强推结论。

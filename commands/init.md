@@ -1,6 +1,6 @@
 ---
 description: "初始化数据文件 — 首次使用 /me 前必须执行一次。"
-allowed-tools: "Read Write Edit Bash"
+allowed-tools: "Read Write Edit Bash AskUserQuestion"
 ---
 
 Initialize all data files for the me plugin. This must be run once before using any other /me commands.

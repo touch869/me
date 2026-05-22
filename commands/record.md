@@ -1,6 +1,6 @@
 ---
 description: "记录今天的工作或生活。聊着聊着就记下来了。"
-allowed-tools: "Read Write Edit Bash"
+allowed-tools: "Read Write Edit Bash AskUserQuestion"
 ---
 
 Record a work or life log entry through chat-based intake.
@@ -10,7 +10,7 @@ Record a work or life log entry through chat-based intake.
 1. Determine mode from user argument:
    - `work` → work log
    - `life` → life log
-   - No argument → ask the user
+   - No argument → use AskUserQuestion to ask
 
 2. Determine date:
    - If user provides a date (YYYY-MM-DD), use it for catchup
@@ -24,11 +24,7 @@ Record a work or life log entry through chat-based intake.
    - Life (single day): `Read ${CLAUDE_PLUGIN_ROOT}/skills/me/prompts/life_intake.md`
    - Catchup (multi-day): `Read ${CLAUDE_PLUGIN_ROOT}/skills/me/prompts/catchup_intake.md`
 
-5. **Follow the prompt strictly.** The prompt defines a step-by-step conversation flow. You must:
-   - Ask ONE question at a time
-   - WAIT for the user's answer before speaking again
-   - Never output multiple questions or paragraphs at once
-   - Never skip steps or freelance your own flow
+5. **Follow the prompt strictly.** The prompt uses AskUserQuestion for interactive dialogue. You must call AskUserQuestion for every question — never output plain text questions.
 
 6. Auto-infer category, impact, tags from conversation — **never ask user directly**:
    - **category**: from description → 开发/会议/调研/评审/规划/运维/沟通/文档

@@ -1,6 +1,6 @@
 ---
 description: "在记忆里做个梦 — 把碎片连接成故事，发现隐藏的线索。"
-allowed-tools: "Read Write Edit Bash"
+allowed-tools: "Read Write Edit Bash AskUserQuestion"
 ---
 
 Dream in your memories — connect fragments into a narrative and discover hidden threads.

@@ -2,7 +2,7 @@
 
 多日补录模式。**严格逐天进行，一天聊完再聊下一天。**
 
-你必须按下面的流程走，不能跳步，不能一次问多天。
+所有提问必须使用 AskUserQuestion 工具。用户通过选项或 Other 输入自由文本回答。
 
 ## 流程
 
@@ -10,42 +10,68 @@
 
 ### Step 1: 开始当天
 
+调用 AskUserQuestion：
+
+```json
+{
+  "questions": [{
+    "question": "{date}（{weekday}）那天工作上最值得记的是什么？",
+    "header": "{date}",
+    "options": [
+      {"label": "让我说说...", "description": "选择此项后输入你的内容"},
+      {"label": "没啥特别的", "description": "普通的一天"},
+      {"label": "不太记得了", "description": "回忆不起来"}
+    ],
+    "multiSelect": false
+  }]
+}
 ```
-来补 {date} 的记录。那天工作上（/生活上）最值得记的是什么？一句话就行。
+
+用户选择 "让我说说..." 时会在 Other 里输入具体内容。提取用户的回答作为 summary。
+
+### Step 2: 追问（可选）
+
+如果 Step 1 用户选了 "没啥特别的" 或 "不太记得了"，跳过追问直接确认。
+
+如果用户提供了具体内容，且信息不够丰富，调用 AskUserQuestion 追问 1 个方向：
+
+```json
+{
+  "questions": [{
+    "question": "那天最大的进展或卡点是什么？",
+    "header": "追问",
+    "options": [
+      {"label": "让我补充...", "description": "选择后输入详情"},
+      {"label": "就这些了", "description": "不用追问了"}
+    ],
+    "multiSelect": false
+  }]
+}
 ```
-
-**等用户回答。不要继续说任何话。**
-
-### Step 2: 追问（最多 1 个）
-
-根据用户的回答，挑 1 个最相关的追问。如果用户说"没啥特别的"或内容已经很清楚，跳过追问直接确认。
-
-追问方向：
-- 工作："那天最大的进展或卡点是什么？"
-- 生活："那天最开心或最郁闷的事是什么？"
-
-**等用户回答。不要继续说任何话。**
 
 ### Step 3: 确认当天
 
+调用 AskUserQuestion 展示整理后的记录：
+
+```json
+{
+  "questions": [{
+    "question": "{date} 的记录：\n📋 {summary}\n🏗️ 项目：{project}  📂 类型：{category}  ⭐ 重要度：{impact}/5  🏷️ {tags}\n\n确认没问题就写入。",
+    "header": "确认",
+    "options": [
+      {"label": "确认写入", "description": "记录没问题"},
+      {"label": "要改一下", "description": "选择后说明要改什么"}
+    ],
+    "multiSelect": false
+  }]
+}
 ```
-{date} 的记录：
-  📋 {summary}
-  🏗️ 项目：{project}  📂 类型：{category}  ⭐ 重要度：{impact}/5  🏷️ {tags}
 
-确认没问题就写入了，要改的说一下。
-```
-
-**等用户确认。确认后立即写入 CSV，然后开始下一天。**
-
-### 进入下一天
-
-用户确认后，自动进入下一个日期的 Step 1。不需要说"接下来是 XX 日"这类过渡语，直接开始。
+用户确认后，立即调用 csv_manager 写入 CSV，然后进入下一天的 Step 1。
 
 ## 规则
 
-- 一次只问一个问题，等用户回答后再说下一句
-- 不要列出所有日期让用户填
-- 不要自己编造内容
+- 所有提问用 AskUserQuestion，不要输出纯文本问题
+- 一天一天来，不要批量问多天
 - category/impact/tags 自动推断，信息不足时留空
-- 用户说"都一样"/"没啥"也要记录，不能跳过日期
+- 用户说 "都一样"/"没啥" 也要记录，不能跳过

@@ -1,6 +1,6 @@
 ---
 description: "根据记忆辅助决策 — 查找过去类似情境，分析结果，给出建议。"
-allowed-tools: "Read Write Edit Bash"
+allowed-tools: "Read Write Edit Bash AskUserQuestion"
 ---
 
 Decision support — find past similar situations, analyze outcomes, provide reference advice.

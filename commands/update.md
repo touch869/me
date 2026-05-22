@@ -1,6 +1,6 @@
 ---
 description: "从日志提炼记忆 — 把CSV记录转化为可推理的记忆档案。"
-allowed-tools: "Read Write Edit Bash"
+allowed-tools: "Read Write Edit Bash AskUserQuestion"
 ---
 
 Update memory archive — distill patterns from CSV logs into the memory.md understanding layer.

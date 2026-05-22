@@ -1,6 +1,6 @@
 ---
 description: "回忆与总结 — 提取最有价值的内容，帮你述职写颁奖词。"
-allowed-tools: "Read Write Edit Bash"
+allowed-tools: "Read Write Edit Bash AskUserQuestion"
 ---
 
 Recall and summarize — extract the most valuable content from your logs and memory.

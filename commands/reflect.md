@@ -1,6 +1,6 @@
 ---
 description: "反思行为模式 — 发现自己的问题，提出具体可执行的改进建议。"
-allowed-tools: "Read Write Edit Bash"
+allowed-tools: "Read Write Edit Bash AskUserQuestion"
 ---
 
 Reflect on behavioral patterns — find problems and propose actionable improvements.
