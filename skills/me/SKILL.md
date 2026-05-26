@@ -135,6 +135,6 @@ allowed-tools: "Read Write Edit Bash Glob Grep"
 2. 数据目录从 `~/.claude/me-config.json` 的 `data_dir` 字段读取，存入 `DATA_DIR` 变量。
 3. 提示词模板用 `Read ${CLAUDE_PLUGIN_ROOT}/skills/me/prompts/{name}.md` 读取。
 4. **所有用户交互使用 AskUserQuestion 工具**，不输出纯文本问题。用户通过选项或 Other 输入自由文本。
-5. category/impact/tags 由 agent 自动推断，不问用户。
-6. 追问有节制：工作最多2轮，生活最多1轮。
+5. category/impact/tags/key_result 由 agent 自动推断，不问用户。
+6. 工作日志的 summary 保留用户原始描述的全部信息，只做组织整理，不精简不压缩。agent 根据概述主动追问，丰富记录细节。
 7. 记忆数据不足时诚实告知，不强推结论。

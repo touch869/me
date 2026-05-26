@@ -1,16 +1,16 @@
 # 工作日志采录引导
 
-通过 AskUserQuestion 逐项采集工作日志的每一列。一次问一列，用户可以跳过。
+通过 AskUserQuestion 逐项采集工作日志。用户先给概述，agent 追问补全细节，最后确认写入。
 
 **所有提问必须使用 AskUserQuestion 工具。**
 
-## Step 1: 概括
+## Step 1: 概述
 
 ```json
 {
   "questions": [{
-    "question": "来，聊聊 {date} 的工作。一句话概括就行。",
-    "header": "概括",
+    "question": "来，聊聊 {date} 的工作，随便说，想到什么说什么。",
+    "header": "概述",
     "options": [
       {"label": "今天就摸鱼了", "description": "没什么实质性工作"}
     ],
@@ -19,9 +19,41 @@
 }
 ```
 
-提取用户回答作为 `summary`。
+用户回答后，将原文保留作为基础材料，**不要精简、不要压缩、不要丢失任何细节**。后面追问得到的补充信息也一并保留。
 
-## Step 2: 项目
+## Step 2: 追问
+
+根据用户的概述内容，agent 主动提出 2-4 个有针对性的追问，帮助补全细节、丰富记录。
+
+追问原则：
+- 基于概述中有价值但不够清晰的方向深入
+- 关注：具体做了什么、解决了什么问题、用了什么方法/工具、遇到了什么困难、和谁协作、花了多长时间
+- 不要问已有明确答案的内容
+- 追问要自然、有针对性，不要模板化
+
+每次用 AskUserQuestion 提 1-2 个问题（multiSelect 不适用时分开问），可以多轮追问直到信息足够丰富。用户说"没了"/"就这些"时停止追问。
+
+```json
+{
+  "questions": [{
+    "question": "{根据概述生成的针对性追问}",
+    "header": "追问",
+    "options": [
+      {"label": "就这些了", "description": "没有更多要补充的"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+
+## Step 3: 整理 summary
+
+将用户的原始概述 + 追问回答整理为结构化的 summary：
+- **保留所有原始信息**，不要精简、不要压缩、不要丢掉任何用户提到的细节
+- 只做组织整理：按时间线或逻辑顺序排列，让条理更清晰
+- 用户提到的具体数字、人名、工具名、技术细节必须原样保留
+
+## Step 4: 项目
 
 ```json
 {
@@ -36,59 +68,7 @@
 }
 ```
 
-## Step 3: 类型
-
-```json
-{
-  "questions": [{
-    "question": "工作类型是？",
-    "header": "类型",
-    "options": [
-      {"label": "开发", "description": "写代码、改bug、做功能"},
-      {"label": "会议", "description": "开会、讨论、评审会"},
-      {"label": "调研", "description": "调研方案、看文档、学习"},
-      {"label": "其他", "description": "评审/规划/运维/沟通/文档"}
-    ],
-    "multiSelect": false
-  }]
-}
-```
-
-用户选"其他"时通过 Other 输入具体类型。
-
-## Step 4: 重要度
-
-```json
-{
-  "questions": [{
-    "question": "今天工作的重要程度？",
-    "header": "重要度",
-    "options": [
-      {"label": "1-2 普通", "description": "日常事务，没什么特别的"},
-      {"label": "3 有推进", "description": "推进了项目进度"},
-      {"label": "4-5 关键", "description": "完成里程碑、解决关键问题"}
-    ],
-    "multiSelect": false
-  }]
-}
-```
-
-## Step 5: 关键产出
-
-```json
-{
-  "questions": [{
-    "question": "有没有具体的产出或成果？",
-    "header": "产出",
-    "options": [
-      {"label": "没有", "description": "跳过"}
-    ],
-    "multiSelect": false
-  }]
-}
-```
-
-## Step 6: 心情
+## Step 5: 心情
 
 ```json
 {
@@ -106,7 +86,7 @@
 }
 ```
 
-## Step 7: 确认写入
+## Step 6: 确认写入
 
 汇总所有已填的列，展示给用户确认：
 
@@ -126,6 +106,7 @@
 
 ## 规则
 
-- tags 从对话内容自动提取，不单独问
+- summary 必须保留用户原始描述的所有信息，只做整理不做精简
+- category、impact、key_result、tags 从对话内容自动推断，不单独问
 - 用户选"跳过"的列留空
 - 所有提问用 AskUserQuestion
