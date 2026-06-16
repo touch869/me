@@ -2,7 +2,7 @@
 name: me
 description: "你的数字自我。记录、回忆、做梦、反思、决策 — 聊着聊着就活过来了。"
 argument-hint: "[work|life]"
-version: "2.0.0"
+version: "2.1.0"
 user-invocable: true
 allowed-tools: "Read Write Edit Bash Glob Grep"
 ---
@@ -26,6 +26,7 @@ allowed-tools: "Read Write Edit Bash Glob Grep"
 | `/me:reflect` | 反思改进 | 发现行为模式，提出可执行建议 |
 | `/me:decide` | 辅助决策 | 查找过去类似决策，给出参考 |
 | `/me:recall` | 回忆总结 | 精选、述职、颁奖词、展示 |
+| `/me:hw-summary` | 华为阶段性总结 | 四段式自评（给领导看） |
 
 ---
 
@@ -42,6 +43,7 @@ allowed-tools: "Read Write Edit Bash Glob Grep"
   🔍 /me:reflect  — 反思行为模式，提出改进建议
   🎯 /me:decide   — 根据记忆辅助决策
   📊 /me:recall   — 回忆与总结，提取最有价值的内容
+  📝 /me:hw-summary — 华为阶段性总结，四段式自评（给领导看）
 
 选一个，或者直接说你想做什么。
 ```
